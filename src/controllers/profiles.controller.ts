@@ -23,17 +23,12 @@ export class ProfilesController implements Controller {
   public router = Router();
   // TODO Use a dependency injector to provide this during construction
   private projectService = new ProjectService();
-  private profiles: Array<Profile> = [];
 
   constructor() {
     this.initializeRoutes();
   }
 
   public initializeRoutes(): void {
-    this.router.get(this.path, [
-      this.getAllProfiles.bind(this)
-    ]);
-
     this.router.post(`${this.path}/evaluate`, [
       bodyValidator(Profile),
       this.bodyToProfile,
@@ -45,10 +40,6 @@ export class ProfilesController implements Controller {
       this.evaluateReferralCode,
       this.matchProfileToProject.bind(this)
     ]);
-  }
-
-  private getAllProfiles(_req: Request, _res: Response, _next: NextFunction) {
-    _res.status(200).send(this.profiles);
   }
 
   private bodyToProfile(_req: Request, _res: Response, _next: NextFunction) {
